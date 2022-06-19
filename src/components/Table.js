@@ -1,23 +1,26 @@
 import React from "react";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
-import productList from '../JSON/products.json'
-
-
+import productList from "../JSON/products.json";
 
 export default class Table extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             productList: productList,
-        }
+        };
     }
-    changeListItem = ({ id, fieldname, value }) => {
-       this.setState({productList: this.state.productList.map(item => {
-        if(item.id === id) item[fieldname] = value
-        return item
-       })})
-    }
+    changeListItem = ({ id, fieldname, value }, callback) => {
+        this.setState(
+            {
+                productList: this.state.productList.map((item) => {
+                    if (item.id === id) item[fieldname] = value;
+                    return item;
+                }),
+            },
+            callback
+        );
+    };
 
     render() {
         return (
@@ -27,14 +30,25 @@ export default class Table extends React.Component {
                         <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                             <div className="overflow">
                                 <table className="min-w-full">
-                                    <TableHead list={{ id: 'id', name: 'name', description: 'description', price: 'price', createdAt: 'createdAt' }} />
-                                    <TableBody onSave={this.changeListItem} list={this.state.productList} />
+                                    <TableHead
+                                        list={{
+                                            id: "id",
+                                            name: "name",
+                                            description: "description",
+                                            price: "price",
+                                            createdAt: "createdAt",
+                                        }}
+                                    />
+                                    <TableBody
+                                        onSave={this.changeListItem}
+                                        list={this.state.productList}
+                                    />
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </>
-        )
+        );
     }
 }
